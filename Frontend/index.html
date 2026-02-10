@@ -7,10 +7,29 @@
     <script type="module" src="./js/map.js"></script>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="map-container">
+      <div id="map"></div>
+      <div id="meetup-form-container" class="hidden">
+        <form id="meetup-form">
+          <button type="button" id="close-button">❌</button>
+          <label>
+            Meetup Name:
+            <input type="text" name="meetup-name" />
+          </label>
+          <label>
+            Meetup Date:
+            <input type="date" name="meetup-date" />
+          </label>
+          <label>
+            Meetup Time:
+            <input type="time" name="meetup-time" />
+          </label>
+        </form>
+      </div>
+    </div>
 
     <!-- prettier-ignore -->
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-        ({key: "YOUR_KEY", v: "weekly"});</script>
+        ({key: "AIzaSyD5bKvkaP5lWWzEyDipb3A1if7A6pHSDIw", v: "weekly"});</script>
   </body>
 </html>
