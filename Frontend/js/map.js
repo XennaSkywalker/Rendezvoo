@@ -1,3 +1,4 @@
+import { postMeetup } from "./api.js";
 //this file is only for handling the UI of the website
 const meetupFormContainer = document.getElementById("meetup-form-container");
 const meetupForm = document.getElementById("meetup-form");
@@ -34,14 +35,15 @@ function initForm() {
   submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     const meetupFormData = new FormData(meetupForm);
-    const meetupData = {
-      lat: latLng.lat(),
-      lng: latLng.lng(),
-      meetupName: meetupFormData.get("meetup-name"),
-      meetupDate: meetupFormData.get("meetup-date"),
-      meetupTime: meetupFormData.get("meetup-time"),
-    };
-    console.log(meetupData);
+      const meetupData = {
+        lat: latLng.lat(),
+        lng: latLng.lng(),
+        meetupName: meetupFormData.get("meetup-name"),
+        meetupDate: meetupFormData.get("meetup-date"),
+        meetupTime: meetupFormData.get("meetup-time"),
+      };
+      console.log(meetupData);
+      postMeetup(meetupData);
   });
 }
 
