@@ -17,6 +17,8 @@ async function initMap() {
     mapId: "DEMO_MAP_ID",
   });
 
+  initForm();
+  //map on click
   map.addListener("click", (e) => {
     latLng = e.latLng;
     placeMarker(e.latLng, map);
@@ -24,7 +26,6 @@ async function initMap() {
     meetupFormContainer.classList.remove("hidden");
   });
 
-  initForm();
 }
 
 function initForm() {
@@ -35,23 +36,26 @@ function initForm() {
   submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     const meetupFormData = new FormData(meetupForm);
-      const meetupData = {
-        lat: latLng.lat(),
-        lng: latLng.lng(),
-        meetupName: meetupFormData.get("meetup-name"),
-        meetupDate: meetupFormData.get("meetup-date"),
-        meetupTime: meetupFormData.get("meetup-time"),
-      };
-      console.log(meetupData);
-      postMeetup(meetupData);
+    const meetupData = {
+      lat: latLng.lat(),
+      lng: latLng.lng(),
+      meetupName: meetupFormData.get("meetup-name"),
+      meetupDate: meetupFormData.get("meetup-date"),
+      meetupTime: meetupFormData.get("meetup-time"),
+    };
+    console.log(meetupData);
+    postMeetup(meetupData);
   });
 }
 
 //helper functions
 function placeMarker(latLng, map) {
-  new google.maps.marker.AdvancedMarkerElement({
+  const marker = new google.maps.marker.AdvancedMarkerElement({
     position: latLng,
     map: map,
+  });
+  marker.addEventListener("click", () => {
+    console.log("marker clicked");
   });
 }
 
