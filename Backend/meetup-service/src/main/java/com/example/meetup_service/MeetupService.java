@@ -10,6 +10,11 @@ import java.util.List;
 public class MeetupService {
     List<MeetupEntity> entityList = new ArrayList<>();
 
+    public MeetupResponseDTO createMeetup(MeetupRequestDTO meetupRequestDTO) {
+        MeetupEntity newEntity = toEntity(meetupRequestDTO);
+        addEntity(newEntity);
+        return toResponseDTO(newEntity);
+    }
     public MeetupEntity toEntity(MeetupRequestDTO meetupRequestDTO) {
 
         return new MeetupEntity(meetupRequestDTO.getLat(),
@@ -19,8 +24,8 @@ public class MeetupService {
                 meetupRequestDTO.getMeetupTime());
     }
 
-    public MeetupRequestDTO toRequestDTO (MeetupEntity meetupEntity) {
-        return new MeetupRequestDTO(meetupEntity.getLat(),
+    public MeetupResponseDTO toResponseDTO(MeetupEntity meetupEntity) {
+        return new MeetupResponseDTO(meetupEntity.getLat(),
                 meetupEntity.getLng(),
                 meetupEntity.getMeetupName(),
                 meetupEntity.getMeetupDate(),
