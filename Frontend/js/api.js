@@ -1,12 +1,14 @@
 export async function postMeetup(meetupData) {
   const response = await fetch("http://localhost:8080/backend/meetup", {
-    headers: {
-        'Content-Type': 'application/json',
-    },
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(meetupData),
   });
-  console.log("Response Status:" + response.status);
-  const responseText = await response.text();
-  console.log("Response Body:" +  responseText);
+
+  const data = await response.json();
+  console.log("-----");
+  console.log(data);
+  return data;
 }

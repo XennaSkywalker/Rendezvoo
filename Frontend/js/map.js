@@ -25,7 +25,6 @@ async function initMap() {
     displayLatLng(e.latLng);
     meetupFormContainer.classList.remove("hidden");
   });
-
 }
 
 function initForm() {
@@ -43,7 +42,6 @@ function initForm() {
       meetupDate: meetupFormData.get("meetup-date"),
       meetupTime: meetupFormData.get("meetup-time"),
     };
-    console.log(meetupData);
     postMeetup(meetupData);
   });
 }
