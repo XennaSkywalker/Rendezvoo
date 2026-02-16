@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,6 +31,11 @@ public class MeetupService {
                 meetupEntity.getMeetupName(),
                 meetupEntity.getMeetupDate(),
                 meetupEntity.getMeetupTime());
+    }
+
+    public List<MeetupResponseDTO> getMeetups() {
+        return entityList.stream()
+                .map(this::toResponseDTO).collect(Collectors.toList());
     }
 
     public void addEntity (MeetupEntity meetupEntity) {

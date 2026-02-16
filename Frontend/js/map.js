@@ -1,4 +1,4 @@
-import { postMeetup } from "./api.js";
+import { getMeetups, postMeetup } from "./api.js";
 //this file is only for handling the UI of the website
 const meetupFormContainer = document.getElementById("meetup-form-container");
 const meetupForm = document.getElementById("meetup-form");
@@ -17,22 +17,24 @@ async function initMap() {
     mapId: "DEMO_MAP_ID",
   });
 
-  initForm();
+  const meetupList = await getMeetups();
+  meetupList.forEach((element) => {
+    placeMarker(element.lat, element.lng, map);
+  });
+
   //map on click
   map.addListener("click", (e) => {
     latLng = e.latLng;
-    placeMarker(e.latLng, map);
     displayLatLng(e.latLng);
     meetupFormContainer.classList.remove("hidden");
   });
-}
 
-function initForm() {
+  //form buttons
   closeButton.addEventListener("click", () => {
     meetupFormContainer.classList.add("hidden");
   });
 
-  submitButton.addEventListener("click", (e) => {
+  submitButton.addEventListener("click", async (e) => {
     e.preventDefault();
     const meetupFormData = new FormData(meetupForm);
     const meetupData = {
@@ -42,14 +44,17 @@ function initForm() {
       meetupDate: meetupFormData.get("meetup-date"),
       meetupTime: meetupFormData.get("meetup-time"),
     };
-    postMeetup(meetupData);
+    const meetupResponse = await postMeetup(meetupData);
+    const lat = meetupResponse.lat;
+    const lng = meetupResponse.lng;
+    placeMarker(lat, lng, map);
   });
 }
 
 //helper functions
-function placeMarker(latLng, map) {
+function placeMarker(lat, lng, map) {
   const marker = new google.maps.marker.AdvancedMarkerElement({
-    position: latLng,
+    position: { lat: lat, lng: lng },
     map: map,
   });
   marker.addEventListener("click", () => {
@@ -60,7 +65,5 @@ function placeMarker(latLng, map) {
 function displayLatLng(latLng) {
   console.log(JSON.stringify(latLng));
 }
-
-function postMeetupRequest() {}
 
 initMap();
