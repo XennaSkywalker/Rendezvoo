@@ -10,12 +10,18 @@ import java.util.stream.Collectors;
 @Service
 public class MeetupService {
     List<MeetupEntity> entityList = new ArrayList<>();
+    private final MeetupRepository meetupRepository;
+
+    public MeetupService(MeetupRepository meetupRepository) {
+        this.meetupRepository = meetupRepository;
+    }
 
     public MeetupResponseDTO createMeetup(MeetupRequestDTO meetupRequestDTO) {
         MeetupEntity newEntity = toEntity(meetupRequestDTO);
-        addEntity(newEntity);
-        return toResponseDTO(newEntity);
+        MeetupEntity saved = meetupRepository.save(newEntity);
+        return toResponseDTO(saved);
     }
+
     public MeetupEntity toEntity(MeetupRequestDTO meetupRequestDTO) {
 
         return new MeetupEntity(meetupRequestDTO.getLat(),
@@ -34,7 +40,7 @@ public class MeetupService {
     }
 
     public List<MeetupResponseDTO> getMeetups() {
-        return entityList.stream()
+        return meetupRepository.findAll().stream()
                 .map(this::toResponseDTO).collect(Collectors.toList());
     }
 

@@ -4,7 +4,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "Meetups")
 public class MeetupEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public long id;
     private double lat;
     private double lng;
     private String meetupName;
@@ -33,6 +41,10 @@ public class MeetupEntity {
     @Override
     public int hashCode() {
         return Objects.hash(lat, lng, meetupName, meetupDate, meetupTime);
+    }
+
+    public long getId() {
+        return id;
     }
 
     public double getLat() {
