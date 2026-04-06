@@ -2,14 +2,13 @@ package com.example.meetup_service;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @Service
 public class MeetupService {
-    List<MeetupEntity> entityList = new ArrayList<>();
     private final MeetupRepository meetupRepository;
 
     public MeetupService(MeetupRepository meetupRepository) {
@@ -44,7 +43,22 @@ public class MeetupService {
                 .map(this::toResponseDTO).collect(Collectors.toList());
     }
 
-    public void addEntity (MeetupEntity meetupEntity) {
-        entityList.add(meetupEntity);
+    public List<MeetupResponseDTO> getActiveMeetups() {
+        //get all meetups marked as active meetups (might be stale or not)
+        List<MeetupEntity> currentActiveMeetups = meetupRepository.findByMeetupStatus(MeetupStatus.ACTIVE);
+
+        //filter expired meetups from the stale active meetups
+        List<MeetupEntity> expiredMeetups = currentActiveMeetups.stream()
+                .filter(meetupEntity -> meetupEntity.getMeetupStatus() == MeetupStatus.ACTIVE && LocalDateTime.now().isAfter(meetupEntity.getMeetupDate().atTime(meetupEntity.getMeetupTime())))
+                .collect(Collectors.toList());
+
+        //mark status of expired meetups as EXPIRED, and update repository
+        expiredMeetups.forEach(meetupEntity -> meetupEntity.setMeetupStatus(MeetupStatus.EXPIRED));
+        meetupRepository.saveAll(expiredMeetups);
+
+        //return the updated active ones now
+        return meetupRepository.findByMeetupStatus(MeetupStatus.ACTIVE).stream()
+                .map(this::toResponseDTO).collect(Collectors.toList());
     }
+
 }

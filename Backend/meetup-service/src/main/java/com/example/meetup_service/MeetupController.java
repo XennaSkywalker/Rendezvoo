@@ -20,6 +20,6 @@ public class MeetupController {
 
     @GetMapping("backend/meetup")
     public List<MeetupResponseDTO> getMeetups () {
-        return meetupService.getMeetups();
+        return meetupService.getActiveMeetups();
     }
 }

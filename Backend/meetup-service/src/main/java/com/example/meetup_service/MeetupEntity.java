@@ -19,6 +19,9 @@ public class MeetupEntity {
     private LocalDate meetupDate;
     private LocalTime meetupTime;
 
+    @Enumerated(EnumType.STRING)
+    private MeetupStatus meetupStatus = MeetupStatus.ACTIVE;
+
     public MeetupEntity() {
     }
 
@@ -85,5 +88,13 @@ public class MeetupEntity {
 
     public void setMeetupTime(LocalTime meetupTime) {
         this.meetupTime = meetupTime;
+    }
+
+    public MeetupStatus getMeetupStatus() {
+        return meetupStatus;
+    }
+
+    public void setMeetupStatus(MeetupStatus meetupStatus) {
+        this.meetupStatus = meetupStatus;
     }
 }
